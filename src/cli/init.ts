@@ -1,5 +1,6 @@
 import { writeFileSync, mkdirSync, existsSync, readFileSync } from 'fs';
 import { resolve, join } from 'path';
+import { spawnSync } from 'child_process';
 
 const SKILL_CONTENT = `---
 name: devlens
@@ -110,15 +111,21 @@ export async function runInit(): Promise<void> {
     console.log('  ✓ devlens.config.ts already exists — skipped');
   }
 
+  // 4. Install Playwright Chromium browser
+  console.log('  Installing Chromium browser...');
+  const result = spawnSync('npx', ['playwright', 'install', 'chromium'], { stdio: 'inherit', shell: true });
+  if (result.status === 0) {
+    console.log('  ✓ Chromium installed');
+  } else {
+    console.warn('  ⚠ Chromium install failed — run "npx playwright install chromium" manually');
+  }
+
   console.log('');
-  console.log('DevLens initialized. Next steps:');
+  console.log('DevLens initialized. Next step:');
   console.log('');
-  console.log('  1. Install Chromium (one-time):');
-  console.log('     npx playwright install chromium');
+  console.log('  1. Edit devlens.config.ts to map your pages to routes');
   console.log('');
-  console.log('  2. Edit devlens.config.ts to map your pages to routes');
-  console.log('');
-  console.log('  3. Restart Claude Code');
+  console.log('  2. Restart Claude Code');
   console.log('');
   console.log('  Claude will then automatically screenshot your UI after every file write.');
 }

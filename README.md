@@ -17,18 +17,13 @@ DevLens keeps a single Chromium instance alive for the duration of your Claude C
 
 ## Setup
 
-```bash
-npm install -g devlens-mcp
-npx playwright install chromium
-```
-
-Then in your project root:
+In your project root:
 
 ```bash
 npx devlens-mcp init
 ```
 
-This creates `.mcp.json`, `.claude/skills/devlens.md`, and `devlens.config.ts` automatically.
+This creates `.mcp.json`, `.claude/skills/devlens.md`, and `devlens.config.ts`, and installs the Chromium browser automatically.
 
 Edit `devlens.config.ts` to map your source files to dev server routes, then restart Claude Code.
 

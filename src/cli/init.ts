@@ -26,7 +26,7 @@ Only call it once per session.
 
 ### Rule 2: Capture after every frontend file write
 After every \`Edit\` or \`Write\` to a \`.tsx\`, \`.jsx\`, \`.css\`, \`.vue\`, or \`.svelte\` file:
-1. Call \`dl_capture\` with either \`route\` (if you know it) or \`filePath\` (auto-resolved from devlens.config.ts)
+1. Call \`dl_capture\` with either \`route\` (if you know it) or \`filePath\` (auto-resolved from devlens.config.js)
 2. Add \`selector\` if you only changed a specific component (keeps the image small and fast)
 3. Look at the returned image — does it look right?
 4. If something looks wrong (layout broken, text missing, wrong color, overlapping elements), fix it before moving on
@@ -124,7 +124,7 @@ export async function runInit(): Promise<void> {
   console.log('');
   console.log('DevLens initialized. Next step:');
   console.log('');
-  console.log('  1. Edit devlens.config.ts to map your pages to routes');
+  console.log('  1. Edit devlens.config.js to map your pages to routes');
   console.log('');
   console.log('  2. Restart Claude Code');
   console.log('');

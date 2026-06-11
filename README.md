@@ -23,7 +23,7 @@ In your project root:
 npx devlens-mcp init
 ```
 
-This creates `.mcp.json`, `.claude/skills/devlens.md`, and `devlens.config.ts`, and installs the Chromium browser automatically.
+This creates `.mcp.json`, `.claude/skills/devlens.md`, and `devlens.config.js`, and installs the Chromium browser automatically.
 
 Edit `devlens.config.js` to map your source files to dev server routes, then restart Claude Code.
 
@@ -45,7 +45,7 @@ export default config;
 
 - **`.mcp.json`** — registers the devlens MCP server so Claude Code can call the `dl_*` tools
 - **`.claude/skills/devlens.md`** — the skill that tells Claude to automatically capture after every file write, diff before/after significant changes, and run a visual audit before deploying
-- **`devlens.config.ts`** — maps file glob patterns to dev server routes
+- **`devlens.config.js`** — maps file glob patterns to dev server routes
 
 ## Performance
 

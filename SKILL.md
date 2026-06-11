@@ -16,12 +16,12 @@ You have access to four visual inspection tools: `dl_warmup`, `dl_capture`, `dl_
 ## Rules — follow these automatically, no user prompting needed
 
 ### Rule 1: Warmup at session start
-The first time you are about to edit any file matching `apps/web/src/**`, call `dl_warmup` first.
+The first time you are about to edit any frontend file (`.tsx`, `.ts`, `.css`, `.vue`, `.svelte`), call `dl_warmup` first.
 This pre-warms the browser so subsequent captures cost ~50ms instead of ~500ms.
 Only call it once per session.
 
 ### Rule 2: Capture after every frontend file write
-After every `Edit` or `Write` to a file matching `apps/web/src/**/*.tsx` or `apps/web/src/**/*.css`:
+After every `Edit` or `Write` to a file matching `**/*.tsx`, `**/*.vue`, `**/*.svelte`, or `**/*.css`:
 1. Call `dl_capture` with either `route` (if you know it) or `filePath` (auto-resolved from devlens.config.ts)
 2. Add `selector` if you only changed a specific component (keeps the image small and fast)
 3. Look at the returned image — does it look right?

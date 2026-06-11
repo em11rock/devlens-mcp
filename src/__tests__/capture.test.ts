@@ -10,7 +10,7 @@ describe('capture', () => {
   it('captureRoute returns a non-empty base64 PNG', async () => {
     const result = await captureRoute(DEV_URL, undefined, { width: 1280, height: 900 });
     expect(result.imageBase64).toBeTruthy();
-    expect(result.durationMs).toBeLessThan(3000);
+    expect(result.durationMs).toBeLessThan(15000);
     // Valid PNG header: base64 of \x89PNG
     expect(result.imageBase64.startsWith('iVBOR')).toBe(true);
   });

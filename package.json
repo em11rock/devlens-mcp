@@ -4,6 +4,12 @@
   "description": "Real-time visual feedback plugin for Claude Code frontend development",
   "type": "module",
   "main": "dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
   "bin": {
     "devlens-mcp": "dist/index.js"
   },
@@ -26,19 +32,25 @@
     "dev": "tsup --watch",
     "test": "vitest run",
     "test:watch": "vitest",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "lint": "eslint src --ext .ts",
+    "format": "prettier --write src"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",
     "minimatch": "^10.2.5",
     "pixelmatch": "^6.0.0",
     "playwright": "^1.45.0",
-    "pngjs": "^7.0.0",
-    "zod": "^3.22.0"
+    "pngjs": "^7.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
     "@types/pngjs": "^6.0.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.0.0",
+    "prettier": "^3.0.0",
     "tsup": "^8.0.0",
     "typescript": "^5.4.0",
     "vitest": "^1.6.0"

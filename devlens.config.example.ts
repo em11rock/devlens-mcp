@@ -1,5 +1,5 @@
 // Copy this to your project root as devlens.config.ts and edit to match your routes.
-import type { DevLensConfig } from './tools/devlens/src/config.js';
+import type { DevLensConfig } from 'devlens-mcp';
 
 const config: DevLensConfig = {
   devServerUrl: 'http://localhost:5173',

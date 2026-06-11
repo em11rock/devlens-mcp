@@ -71,18 +71,27 @@ export async function startServer() {
   }));
 
   server.setRequestHandler(CallToolRequestSchema, async (req) => {
-    const { name, arguments: args } = req.params;
+    const { name } = req.params;
+    const args: Record<string, unknown> = (req.params.arguments as Record<string, unknown>) ?? {};
+
+    const str = (v: unknown): string | undefined => (typeof v === 'string' ? v : undefined);
+    const num = (v: unknown): number | undefined => (typeof v === 'number' ? v : undefined);
 
     try {
       if (name === 'dl_warmup') {
-        const result = await warmup((args as { devServerUrl?: string }).devServerUrl, config);
+        const result = await warmup(str(args.devServerUrl), config);
         return {
           content: [{ type: 'text', text: `Warmed up in ${result.durationMs}ms — ${result.url}` }],
         };
       }
 
       if (name === 'dl_capture') {
-        const input = args as { route?: string; filePath?: string; selector?: string; waitMs?: number };
+        const input = {
+          route: str(args.route),
+          filePath: str(args.filePath),
+          selector: str(args.selector),
+          waitMs: num(args.waitMs),
+        };
         const result = await capture(input, config);
         if ('error' in result) {
           return { content: [{ type: 'text', text: `Error: ${result.error}` }] };
@@ -97,13 +106,14 @@ export async function startServer() {
       }
 
       if (name === 'dl_diff') {
-        const { route, selector } = args as { route: string; selector?: string };
+        const route = str(args.route) ?? '';
+        const selector = str(args.selector);
         const result = await diff(route, selector, diffStore, config);
         if ('error' in result) return { content: [{ type: 'text', text: `Error: ${result.error}` }] };
         const content: object[] = [
           { type: 'text', text: result.diff
             ? `Changed: ${result.diff.changedPercent}% (${result.diff.changedPixels} pixels)`
-            : (result as { message?: string }).message ?? 'Baseline set.' },
+            : ('message' in result && typeof result.message === 'string' ? result.message : 'Baseline set.') },
         ];
         if (result.diff?.diffImageBase64) {
           content.push({ type: 'image', data: result.diff.diffImageBase64, mimeType: 'image/png' });
@@ -112,7 +122,8 @@ export async function startServer() {
       }
 
       if (name === 'dl_snapshot') {
-        const { route, selector } = args as { route: string; selector?: string };
+        const route = str(args.route) ?? '';
+        const selector = str(args.selector);
         const result = await snapshot(route, selector, config);
         return { content: [{ type: 'text', text: JSON.stringify(result, null, 2) }] };
       }

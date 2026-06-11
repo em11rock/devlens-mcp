@@ -1,7 +1,6 @@
-// Copy this to your project root as devlens.config.ts and edit to match your routes.
-import type { DevLensConfig } from 'devlens-mcp';
-
-const config: DevLensConfig = {
+// Copy this to your project root as devlens.config.js and edit to match your routes.
+/** @type {import('devlens-mcp').DevLensConfig} */
+const config = {
   devServerUrl: 'http://localhost:5173',
   hmrDebounceMs: 150,
   defaultViewport: { width: 1280, height: 900 },

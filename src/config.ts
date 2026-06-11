@@ -19,16 +19,27 @@ const defaults: Partial<DevLensConfig> = {
 };
 
 export async function loadConfig(cwd = process.cwd()): Promise<DevLensConfig> {
-  const configPath = resolve(cwd, 'devlens.config.ts');
-  try {
-    const jsPath = configPath.replace(/\.ts$/, '.js');
-    const mod = await import(pathToFileURL(jsPath).href);
-    return { ...defaults, ...mod.default } as DevLensConfig;
-  } catch {
-    return {
-      ...defaults,
-      devServerUrl: 'http://localhost:5173',
-      routes: [],
-    } as DevLensConfig;
+  const candidates = [
+    resolve(cwd, 'devlens.config.js'),
+    resolve(cwd, 'devlens.config.ts'),
+  ];
+
+  for (const configPath of candidates) {
+    try {
+      const mod = await import(pathToFileURL(configPath).href);
+      return { ...defaults, ...mod.default } as DevLensConfig;
+    } catch (err: unknown) {
+      const code = (err as NodeJS.ErrnoException).code;
+      if (code === 'ERR_MODULE_NOT_FOUND' || code === 'MODULE_NOT_FOUND') continue;
+      // Config exists but failed to parse/execute — surface the error
+      console.error(`[devlens] Failed to load ${configPath}:`, err);
+    }
   }
+
+  console.warn('[devlens] No devlens.config.js found — using defaults (routes: []). Run "npx devlens-mcp init" to create one.');
+  return {
+    ...defaults,
+    devServerUrl: 'http://localhost:5173',
+    routes: [],
+  } as DevLensConfig;
 }

@@ -63,7 +63,8 @@ call \`dl_capture\` immediately and show the result.
 - Prefer element-level captures during iteration, full-page before deploy
 `;
 
-const CONFIG_TEMPLATE = `// devlens.config.ts — map your source files to dev server routes
+const CONFIG_TEMPLATE = `// devlens.config.js — map your source files to dev server routes
+/** @type {import('devlens-mcp').DevLensConfig} */
 const config = {
   devServerUrl: 'http://localhost:5173',
   hmrDebounceMs: 150,
@@ -102,13 +103,13 @@ export async function runInit(): Promise<void> {
   writeFileSync(join(skillsDir, 'devlens.md'), SKILL_CONTENT);
   console.log('  ✓ .claude/skills/devlens.md written');
 
-  // 3. Create devlens.config.ts if not present
-  const configPath = resolve(cwd, 'devlens.config.ts');
+  // 3. Create devlens.config.js if not present
+  const configPath = resolve(cwd, 'devlens.config.js');
   if (!existsSync(configPath)) {
     writeFileSync(configPath, CONFIG_TEMPLATE);
-    console.log('  ✓ devlens.config.ts created (edit this to add your routes)');
+    console.log('  ✓ devlens.config.js created (edit this to add your routes)');
   } else {
-    console.log('  ✓ devlens.config.ts already exists — skipped');
+    console.log('  ✓ devlens.config.js already exists — skipped');
   }
 
   // 4. Install Playwright Chromium browser
